@@ -1,0 +1,7 @@
+# Ignore documents and sheets
+*.xlsx
+*.pdf
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
