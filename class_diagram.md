@@ -115,6 +115,16 @@ package "Frontend - State Contexts" {
         + getOrderById(id)
         + setCurrentOrder(order)
     }
+
+    class NotifikasiContext {
+        + Array toasts
+        + addToast(type, message, title, duration)
+        + removeToast(id)
+        + success(msg, title)
+        + error(msg, title)
+        + warning(msg, title)
+        + info(msg, title)
+    }
 }
 
 package "Frontend - API Services" {
@@ -276,6 +286,11 @@ classDiagram
         +Object currentOrder
         +createOrder()
         +getOrderById()
+    }
+    class NotifikasiContext {
+        +Array toasts
+        +addToast()
+        +removeToast()
     }
 
     %% Frontend Services
