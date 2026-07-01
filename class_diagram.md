@@ -1,16 +1,6 @@
-# Dokumentasi Class Diagram - Rumah Makan Om Ping
+# Dokumentasi Class Diagram (Bahasa Indonesia) - Rumah Makan Om Ping
 
-Dokumen ini berisi diagram kelas (class diagram) dari sistem **Rumah Makan Om Ping** yang mencakup arsitektur **Frontend** (React + Context + Services) dan **Backend** (Sequelize Models).
-
----
-
-## Apakah Class Diagram Hanya untuk Frontend Saja?
-
-**Tidak.** Class diagram **bukan hanya untuk frontend**. Faktanya, class diagram digunakan untuk menggambarkan struktur statis dari seluruh sistem perangkat lunak:
-1.  **Backend (Database / Domain Models)**: Menunjukkan tabel database (atau model OOP seperti Sequelize/Mongoose) beserta relasi antar tabel (seperti *One-to-Many*, *Many-to-Many*, dsb). Ini adalah bagian terpenting dari class diagram untuk memetakan logika bisnis.
-2.  **Frontend (Arsitektur Klien)**: Menunjukkan struktur komponen UI, pengelola status state (seperti React Context/Redux), serta modul komunikasi API (Services).
-
-Oleh karena itu, class diagram di bawah ini mencakup **kedua sisi** (Frontend & Backend) agar memberikan gambaran arsitektur sistem secara penuh.
+Dokumen ini berisi diagram kelas (class diagram) dari sistem **Rumah Makan Om Ping** yang mencakup arsitektur **Frontend** (React + Context + Services) dan **Backend** (Sequelize Models) dengan penamaan bahasa Indonesia yang disesuaikan dengan Use Case Diagram.
 
 ---
 
@@ -102,7 +92,7 @@ User "1" -- "1" Karyawan : memiliki profil <
 ' FRONTEND ARCHITECTURE (React Services & State Contexts)
 ' ========================================================
 package "Frontend - State Contexts" {
-    class CartContext {
+    class KeranjangContext {
         + Array items
         + Integer totalItems
         + Float totalPrice
@@ -112,14 +102,14 @@ package "Frontend - State Contexts" {
         + clearCart()
     }
 
-    class AuthContext {
+    class OtentikasiContext {
         + Object karyawan
         + String token
         + login(credentials)
         + logout()
     }
 
-    class OrderContext {
+    class PesanContext {
         + Object currentOrder
         + createOrder(orderData)
         + getOrderById(id)
@@ -128,7 +118,7 @@ package "Frontend - State Contexts" {
 }
 
 package "Frontend - API Services" {
-    class orderService {
+    class pesanService {
         + getAll()
         + getById(id)
         + create(data)
@@ -138,7 +128,7 @@ package "Frontend - API Services" {
         + deleteDetail(pesanId, menuId)
     }
 
-    class paymentService {
+    class bayarService {
         + getAll()
         + getById(id)
         + create(data)
@@ -154,26 +144,35 @@ package "Frontend - API Services" {
         + delete(id)
     }
 
-    class customerService {
+    class pelangganService {
         + create(data)
     }
 
-    class authService {
+    class otentikasiService {
         + login(username, password)
+    }
+
+    class penggunaService {
+        + getAll()
+        + getById(id)
+        + create(data)
+        + update(id, data)
+        + delete(id)
     }
 }
 
 ' Hubungan Antara Frontend & Backend
-orderService ..> Pesan : manipulasi data
-paymentService ..> Bayar : manipulasi data
+pesanService ..> Pesan : manipulasi data
+bayarService ..> Bayar : manipulasi data
 menuService ..> Menu : manipulasi data
-customerService ..> Pelanggan : membuat data
-authService ..> User : otentikasi
+pelangganService ..> Pelanggan : membuat data
+otentikasiService ..> User : otentikasi
+penggunaService ..> User : manipulasi data
 
 ' Hubungan Internal Frontend
-OrderContext ..> orderService : memanggil API
-CartContext ..> customerService : pendaftaran saat checkout
-AuthContext ..> authService : memanggil login API
+PesanContext ..> pesanService : memanggil API
+KeranjangContext ..> pelangganService : pendaftaran saat checkout
+OtentikasiContext ..> otentikasiService : memanggil login API
 
 @enduml
 ```
@@ -251,7 +250,7 @@ classDiagram
     User "1" --> "1" Karyawan : memiliki profil
 
     %% Frontend Contexts
-    class CartContext {
+    class KeranjangContext {
         +Array items
         +Integer totalItems
         +Float totalPrice
@@ -259,26 +258,26 @@ classDiagram
         +updateQty()
         +clearCart()
     }
-    class AuthContext {
+    class OtentikasiContext {
         +Object karyawan
         +String token
         +login()
         +logout()
     }
-    class OrderContext {
+    class PesanContext {
         +Object currentOrder
         +createOrder()
         +getOrderById()
     }
 
     %% Frontend Services
-    class orderService {
+    class pesanService {
         +getAll()
         +create()
         +update()
         +delete()
     }
-    class paymentService {
+    class bayarService {
         +create()
         +getAll()
     }
@@ -286,9 +285,21 @@ classDiagram
         +getAll()
         +update()
     }
+    class pelangganService {
+        +create()
+    }
+    class otentikasiService {
+        +login()
+    }
+    class penggunaService {
+        +getAll()
+        +create()
+        +update()
+        +delete()
+    }
 
     %% Frontend connections
-    OrderContext ..> orderService : uses API
-    CartContext ..> customerService : registers guest
-    AuthContext ..> authService : checks user
+    PesanContext ..> pesanService : memanggil API
+    KeranjangContext ..> pelangganService : mendaftar tamu
+    OtentikasiContext ..> otentikasiService : memeriksa pengguna
 ```
