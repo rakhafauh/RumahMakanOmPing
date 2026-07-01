@@ -152,12 +152,18 @@ package "Frontend - API Services" {
         + login(username, password)
     }
 
-    class penggunaService {
+    class userService {
         + getAll()
         + getById(id)
         + create(data)
         + update(id, data)
         + delete(id)
+    }
+
+    class transaksiService {
+        + getTransactionHistory(filters)
+        + getRevenueStats(period)
+        + searchByNameOrPhone(query)
     }
 }
 
@@ -167,7 +173,9 @@ bayarService ..> Bayar : manipulasi data
 menuService ..> Menu : manipulasi data
 pelangganService ..> Pelanggan : membuat data
 otentikasiService ..> User : otentikasi
-penggunaService ..> User : manipulasi data
+userService ..> User : manipulasi data
+transaksiService ..> Bayar : agregasi data
+transaksiService ..> Pesan : agregasi data
 
 ' Hubungan Internal Frontend
 PesanContext ..> pesanService : memanggil API
@@ -291,11 +299,16 @@ classDiagram
     class otentikasiService {
         +login()
     }
-    class penggunaService {
+    class userService {
         +getAll()
         +create()
         +update()
         +delete()
+    }
+    class transaksiService {
+        +getTransactionHistory()
+        +getRevenueStats()
+        +searchByNameOrPhone()
     }
 
     %% Frontend connections
